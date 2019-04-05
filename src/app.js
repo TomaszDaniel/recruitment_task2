@@ -4,11 +4,9 @@ const body = document.querySelector("body")
 const button = document.querySelector("button")
 let counter = 0
 let prevSearchValue
-const result = []
+let result = []
 
 const show = (myJson) => {
-    // console.log(myJson);
-
     if (typeof myJson.items === "object") {
         myJson.items.forEach(item => {
             let title = item.volumeInfo.title
@@ -35,9 +33,9 @@ const show = (myJson) => {
             }
             result.push(book)
         })
-        let newResult = result.filter(item => item.title.toLowerCase().includes(input.value))
+
         main.textContent = ""
-        newResult.forEach(element => {
+        result.forEach(element => {
             let article = document.createElement('article')
             let heading = document.createElement('h2')
             let img = document.createElement('img')
@@ -51,39 +49,31 @@ const show = (myJson) => {
             main.appendChild(article)
         })
     }
-}
-// const fetchData = () => {
-//     fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${input.value}&startIndex=${counter}`)
-//         .then(function (response) {
-//             return response.json();
-//         })
-//         .then(async function (myJson) {
-//             show(myJson);
-//         })
-// }
 
-const loadBooks = async () => {
+    if (myJson.error) {
+        alert(myJson.error.message)
+    }
+}
+const fetchData = () => {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${input.value}&startIndex=${counter}`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (myJson) {
+            show(myJson);
+        })
+}
+
+const loadBooks = () => {
     if (input.value !== "") {
         if (input.value !== prevSearchValue) {
             prevSearchValue = input.value
             main.textContent = ""
             result.length = 0
             counter = 0;
-            await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${input.value}&startIndex=${counter}`)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(async function (myJson) {
-                    show(myJson);
-                })
+            fetchData()
         } else {
-            await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${input.value}&startIndex=${counter}`)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(async function (myJson) {
-                    show(myJson);
-                })
+            fetchData()
         }
     } else {
         result.length = 0
