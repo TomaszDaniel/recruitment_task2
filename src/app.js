@@ -7,6 +7,7 @@ let prevSearchValue
 let result = []
 
 const show = (myJson) => {
+
     if (typeof myJson.items === "object") {
         myJson.items.forEach(item => {
             let title = item.volumeInfo.title
@@ -33,7 +34,6 @@ const show = (myJson) => {
             }
             result.push(book)
         })
-
         main.textContent = ""
         result.forEach(element => {
             let article = document.createElement('article')
@@ -88,8 +88,15 @@ const scrollFunction = () => {
         loadBooks()
     }
 }
+var timeout = null;
 
-input.addEventListener("input", loadBooks)
+input.addEventListener("keyup", () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        loadBooks();
+    }, 200);
+})
+
 window.addEventListener("scroll", scrollFunction)
 
 
