@@ -82,7 +82,6 @@ const loadBooks = () => {
 }
 
 const scrollFunction = () => {
-    console.log(document.body.offsetHeight, window.innerHeight, window.scrollY)
     if (document.body.offsetHeight + 50 === window.innerHeight + window.scrollY) {
         scrollTo(0, document.body.offsetHeight)
         counter += 10
