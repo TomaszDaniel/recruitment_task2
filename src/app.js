@@ -82,13 +82,14 @@ const loadBooks = () => {
 }
 
 const scrollFunction = () => {
+    console.log(document.body.offsetHeight, window.innerHeight, window.scrollY)
     if (document.body.offsetHeight + 50 === window.innerHeight + window.scrollY) {
-        scrollTo(0, scrollY - 50)
+        scrollTo(0, document.body.offsetHeight)
         counter += 10
         loadBooks()
     }
 }
-var timeout = null;
+let timeout = null;
 
 input.addEventListener("keyup", () => {
     clearTimeout(timeout);
