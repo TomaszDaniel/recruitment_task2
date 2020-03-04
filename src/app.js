@@ -98,5 +98,6 @@ input.addEventListener("keyup", () => {
 })
 
 window.addEventListener("scroll", scrollFunction)
+window.addEventListener("touchmove", scrollFunction)
 
 
